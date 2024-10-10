@@ -11,7 +11,7 @@ def setup_elasticsearch(purge=False):
     try:
         es = Elasticsearch(
             ["https://localhost:9200"],
-            basic_auth=("elastic", "0*vI4uVRVoUk09+apAkT"),
+            basic_auth=("elastic", ""),
             verify_certs=False,
             ssl_show_warn=False
         )
