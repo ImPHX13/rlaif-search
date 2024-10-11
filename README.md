@@ -1,4 +1,4 @@
-# RL-Powered Search Engine Optimization
+# RL-Powered Search Engine
 
 This repository implements a Reinforcement Learning (RL) framework to optimize search engine results using Proximal Policy Optimization (PPO). The system integrates with Elasticsearch to dynamically improve search rankings based on real-time feedback from a feedback agent.
 
