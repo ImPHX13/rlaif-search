@@ -6,6 +6,21 @@ from feedback_model.reward_function import calculate_reward
 from evaluation.metrics import ndcg
 
 class SearchEnvironment(gym.Env):
+    """
+    A gym environment for search engine optimization.
+    
+    Attributes:
+        es (str): Elasticsearch instance.
+        feedback_agent (object): Feedback agent for predicting document relevance.
+        top_k (int): Number of top documents to consider.
+        action_space (gym.Space): Discrete space for actions (document indices).
+        observation_space (gym.Space): Box space for observations (document relevance).
+        query (str): Current search query.
+        documents (list): List of documents retrieved for the query.
+        initial_relevance (np.array): Initial relevance scores for the documents.
+        current_ranking (list): Current ranking of documents.
+        initial_ndcg (float): Initial NDCG score.
+    """
     def __init__(self, es, feedback_agent, top_k=10):
         super().__init__()
         self.es = es
@@ -22,6 +37,15 @@ class SearchEnvironment(gym.Env):
         self.initial_ndcg = None
     
     def reset(self, query):
+        """
+        Resets the environment with a new query.
+        
+        Args:
+            query (str): The search query.
+        
+        Returns:
+            np.array: The initial relevance scores for the documents.
+        """
         self.query = query
         self.documents = bm25_search(self.es, query, self.top_k)
         if not self.documents:
@@ -34,6 +58,15 @@ class SearchEnvironment(gym.Env):
         return self.initial_relevance
     
     def step(self, action):
+        """
+        Takes an action in the environment.
+        
+        Args:
+            action (int): The index of the document to move to the top.
+        
+        Returns:
+            tuple: A tuple containing the new relevance scores, reward, done flag, and info.
+        """
         if not self.documents or action >= len(self.current_ranking):
             return self.initial_relevance, 0, True, {}
         
@@ -53,4 +86,10 @@ class SearchEnvironment(gym.Env):
         return new_relevance, reward, done, {}
 
     def get_current_ranking(self):
+        """
+        Returns the current ranking of documents.
+        
+        Returns:
+            list: A list of documents in their current ranking order.
+        """
         return [self.documents[i] for i in self.current_ranking]

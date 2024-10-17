@@ -8,10 +8,19 @@ import urllib3
 urllib3.disable_warnings(InsecureRequestWarning)
 
 def setup_elasticsearch(purge=False):
+    """
+    Sets up an Elasticsearch instance, optionally purging and creating an index, and indexes documents.
+
+    Args:
+        purge (bool, optional): If True, purges the existing 'documents' index before creating a new one. Defaults to False.
+
+    Returns:
+        Elasticsearch: The Elasticsearch instance if setup is successful, otherwise None.
+    """
     try:
         es = Elasticsearch(
             ["https://localhost:9200"],
-            basic_auth=("elastic", ""),
+            basic_auth=("elastic", "enter-key-here"),
             verify_certs=False,
             ssl_show_warn=False
         )
