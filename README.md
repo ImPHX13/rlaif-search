@@ -16,7 +16,7 @@ The project consists of the following key components:
 To set up the project, ensure you have Python 3.10 or higher installed. Then, clone the repository and install the required packages:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/ImPHX13/rlaif-search.git
 cd <repository-directory>
 pip install -r requirements.txt
 ```
@@ -35,7 +35,7 @@ python -m search_engine.elasticsearch_setup
 
 This will create an index named `documents` and load sample documents from `data/documents.json`. These documents are only a sample and do not represent the entire corpus of documents that will be used for training or evaluation.
 
-## Running the Training
+## Training
 
 To train the RL agent, execute the following command:
 
