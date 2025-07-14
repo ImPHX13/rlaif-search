@@ -66,7 +66,8 @@ def train_ppo(env, num_episodes, batch_size, training_queries):
         
         # PPO update
         for _ in range(10):  # Increase number of optimization epochs
-            new_log_probs, new_values = agent(states)
+            new_action_logits, new_values = agent(states)
+            new_log_probs = torch.log_softmax(new_action_logits, dim=-1)
             new_log_probs = new_log_probs.gather(1, actions.unsqueeze(1)).squeeze(1)
             new_values = new_values.squeeze(1)
             
